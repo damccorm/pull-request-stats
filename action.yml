@@ -55,9 +55,9 @@ inputs:
   webhook:
     description: 'A webhook URL to post resulting stats.'
     required: false
-outputs:
-  results:
-    description: 'Summary of the results. This matches what would have been sent to the summary and/or any integrations.'
+  local-file:
+    description: 'A local file to write resulting stats.'
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'

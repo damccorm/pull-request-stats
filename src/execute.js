@@ -1,4 +1,5 @@
 const core = require('@actions/core');
+const fs = require('fs');
 const github = require('@actions/github');
 const { subtractDaysToDate } = require('./utils');
 const { Telemetry } = require('./services');
@@ -73,7 +74,9 @@ const run = async (params) => {
   await postSlackMessage({ ...whParams, pullRequest });
   await postTeamsMessage({ ...whParams, pullRequest });
   await postSummary({ core, content });
-  await core.setOutput('results', content);
+  if (params.localFile) {
+    fs.writeFileSync(params.localFile, content, { encoding: 'utf-8' });
+  }
 
   if (!pullRequestId) return;
   await postComment({

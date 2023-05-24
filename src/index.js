@@ -46,6 +46,7 @@ const getParams = () => {
     teams: {
       webhook: core.getInput('teams-webhook'),
     },
+    localFile: core.getInput('local-file'),
   };
 };
 

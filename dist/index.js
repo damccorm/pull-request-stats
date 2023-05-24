@@ -15106,6 +15106,7 @@ module.exports = getContributions;
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
 const core = __webpack_require__(470);
+const fs = __webpack_require__(747);
 const github = __webpack_require__(469);
 const { subtractDaysToDate } = __webpack_require__(353);
 const { Telemetry } = __webpack_require__(530);
@@ -15180,7 +15181,9 @@ const run = async (params) => {
   await postSlackMessage({ ...whParams, pullRequest });
   await postTeamsMessage({ ...whParams, pullRequest });
   await postSummary({ core, content });
-  await core.setOutput('results', content);
+  if (params.localFile) {
+    fs.writeFileSync(params.localFile, content, { encoding: 'utf-8' });
+  }
 
   if (!pullRequestId) return;
   await postComment({
@@ -16013,6 +16016,7 @@ const getParams = () => {
     teams: {
       webhook: core.getInput('teams-webhook'),
     },
+    localFile: core.getInput('local-file'),
   };
 };
 
